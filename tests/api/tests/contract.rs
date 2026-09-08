@@ -2881,3 +2881,35 @@ fn t52_the_history_has_no_cap() {
         "the history endpoint returns at least what the status shows"
     );
 }
+
+/// 3.1 tells the page which platform the service runs on (`config.platform`).
+fn since_31() -> bool {
+    let v = state()["config"]["version"]
+        .as_str()
+        .unwrap_or("0")
+        .to_string();
+    let mut parts = v.split('.').map(|p| p.parse::<u32>().unwrap_or(0));
+    let (major, minor) = (parts.next().unwrap_or(0), parts.next().unwrap_or(0));
+    let ok = (major, minor) >= (3, 1);
+    if !ok {
+        eprintln!("skipped: service {v} is older than 3.1");
+    }
+    ok
+}
+
+/// `config.platform` (3.1): the operating system the service runs on, so the
+/// page can word things for it. Absent before 3.1.
+#[test]
+fn t53_config_names_the_platform() {
+    if !since_31() {
+        return;
+    }
+    let platform = state()["config"]["platform"]
+        .as_str()
+        .expect("config.platform")
+        .to_string();
+    assert!(
+        ["windows", "linux"].contains(&platform.as_str()),
+        "config.platform: {platform:?}"
+    );
+}
