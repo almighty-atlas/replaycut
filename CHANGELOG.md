@@ -34,6 +34,16 @@ contract.
   Intel GPUs, one profile pair per render node, with `hwaccel: vaapi` as a
   manual choice. The replay hotkey stays unavailable on Wayland; the page
   says so and points at obs-websocket.
+- **Linux, third stage: install, autostart and the page's wording.**
+  `replaycut install` (or `install.sh`) puts the files under
+  `~/.local/share/replaycut/app`, links `~/.local/bin/replaycut`, adds a
+  desktop entry and an icon and asks whether replaycut should start with
+  the desktop session, which a systemd user unit then does; the switch on
+  the settings page and `replaycut autostart` drive the same unit.
+  `uninstall` takes it all back again. The status document says which
+  platform the service runs on (`config.platform`), and the page words
+  things for it: keyring instead of Credential Manager, trash instead of
+  recycle bin, the app menu instead of the Start menu.
 
 ## [3.0.1] - 2026-09-08
 
